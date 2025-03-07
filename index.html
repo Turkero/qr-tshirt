@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Chatbot</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: center;
+            padding-top: 50px;
+        }
+        input {
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px;
+            font-size: 16px;
+            width: 300px;
+        }
+        button {
+            background: black;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .chatbox {
+            width: 50%;
+            margin: auto;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>What happened?</h1>
+    <div class="chatbox" id="chatbox">
+        <p><strong>AI:</strong> What do you want?</p>
+    </div>
+    <input type="text" id="userInput" placeholder="Type your request...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        function sendMessage() {
+            let input = document.getElementById("userInput").value;
+            let chatbox = document.getElementById("chatbox");
+
+            if (input.trim() !== "") {
+                chatbox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+                document.getElementById("userInput").value = "";
+
+                // Simple responses (to be replaced with backend API)
+                let response = "";
+                if (input.toLowerCase().includes("kitty")) {
+                    response = `<a href="https://www.google.com/search?tbm=isch&q=kitties" target="_blank">Here are some kitties</a>`;
+                } else if (input.toLowerCase().includes("meaning of life")) {
+                    response = "Oh boy, I have no energy for this now. Look at this tree instead.";
+                } else {
+                    response = "I don't care. Say something else.";
+                }
+
+                chatbox.innerHTML += `<p><strong>AI:</strong> ${response}</p>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
