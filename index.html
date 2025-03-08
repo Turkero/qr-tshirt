@@ -48,25 +48,27 @@
     <button onclick="sendMessage()">Send</button>
 
     <script>
-        function sendMessage() {
+        async function sendMessage() {
             let input = document.getElementById("userInput").value;
             let chatbox = document.getElementById("chatbox");
-
+    
             if (input.trim() !== "") {
                 chatbox.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
                 document.getElementById("userInput").value = "";
-
-                // Simple responses (to be replaced with backend API)
-                let response = "";
-                if (input.toLowerCase().includes("kitty")) {
-                    response = `<a href="https://www.google.com/search?tbm=isch&q=kitties" target="_blank">Here are some kitties</a>`;
-                } else if (input.toLowerCase().includes("meaning of life")) {
-                    response = "Oh boy, I have no energy for this now. Look at this tree instead.";
-                } else {
-                    response = "I don't care. Say something else.";
+    
+                // Send request to backend
+                try {
+                    let response = await fetch("https://yourapp-name.up.railway.app/chat", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ message: input })
+                    });
+                    let data = await response.json();
+                    chatbox.innerHTML += `<p><strong>AI:</strong> ${data.response}</p>`;
+                } catch (error) {
+                    chatbox.innerHTML += `<p><strong>AI:</strong> I’m offline. Deal with it.</p>`;
                 }
-
-                chatbox.innerHTML += `<p><strong>AI:</strong> ${response}</p>`;
+    
                 chatbox.scrollTop = chatbox.scrollHeight;
             }
         }
